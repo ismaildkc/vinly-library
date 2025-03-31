@@ -6,7 +6,7 @@ import {
   signOut,
   User
 } from 'firebase/auth';
-import auth from '../app/config/firebase';
+import auth from '../config/firebase';
 
 type AuthContextType = {
   user: User | null;
