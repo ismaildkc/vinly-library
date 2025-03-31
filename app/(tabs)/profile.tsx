@@ -1,9 +1,7 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, TouchableOpacity, Alert, View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
 import { useAuth } from '@/context/AuthContext';
 
 export default function ProfileScreen() {
@@ -20,19 +18,19 @@ export default function ProfileScreen() {
   };
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title" style={styles.title}>Profil</ThemedText>
+    <View style={styles.container}>
+      <Text style={styles.title}>Profil</Text>
       
-      <ThemedView style={styles.card}>
-        <ThemedText type="subtitle">Kullanıcı Bilgileri</ThemedText>
-        <ThemedText>Email: {user?.email}</ThemedText>
-        <ThemedText>Kullanıcı ID: {user?.uid}</ThemedText>
-      </ThemedView>
+      <View style={styles.card}>
+        <Text>Kullanıcı Bilgileri</Text>
+        <Text>Email: {user?.email}</Text>
+        <Text>Kullanıcı ID: {user?.uid}</Text>
+      </View>
       
       <TouchableOpacity style={styles.button} onPress={handleLogout}>
-        <ThemedText style={styles.buttonText}>Çıkış Yap</ThemedText>
+        <Text style={styles.buttonText}>Çıkış Yap</Text>
       </TouchableOpacity>
-    </ThemedView>
+    </View>
   );
 }
 

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity, Alert, View, Text } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
 import { useAuth } from '@/context/AuthContext';
 
 export default function RegisterScreen() {
@@ -37,8 +35,8 @@ export default function RegisterScreen() {
   };
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title" style={styles.title}>Kayıt Ol</ThemedText>
+    <View style={styles.container}>
+      <Text style={styles.title}>Kayıt Ol</Text>
       
       <TextInput
         style={styles.input}
@@ -70,17 +68,17 @@ export default function RegisterScreen() {
         onPress={handleRegister}
         disabled={isLoading}
       >
-        <ThemedText style={styles.buttonText}>
+        <Text style={styles.buttonText}>
           {isLoading ? 'Kayıt yapılıyor...' : 'Kayıt Ol'}
-        </ThemedText>
+        </Text>
       </TouchableOpacity>
       
       <Link href="/auth/login" asChild>
         <TouchableOpacity style={styles.linkButton}>
-          <ThemedText type="link">Zaten bir hesabınız var mı? Giriş yapın</ThemedText>
+          <Text>Zaten bir hesabınız var mı? Giriş yapın</Text>
         </TouchableOpacity>
       </Link>
-    </ThemedView>
+    </View>
   );
 }
 
