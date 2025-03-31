@@ -3,25 +3,32 @@ import { Colors } from "@/constants/Colors";
 import {
   StyleSheet,
   TextInput,
+  StyleProp,
+  TextStyle,
 } from "react-native";
 
 interface IInputProps {
   placeholder?: string;
   value: string;
   onChangeText: (text: string) => void;
+  style?: StyleProp<TextStyle>;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
 }
 
 export default function Input({
   placeholder = "Search",
   value,
   onChangeText,
+  style,
+  autoCapitalize = 'none',
 }: IInputProps) {
   return (
     <TextInput
       placeholder={placeholder}
-      style={styles.input}
+      style={[styles.input, style]}
       value={value}
       onChangeText={onChangeText}
+      autoCapitalize={autoCapitalize}
     />
   );
 }
