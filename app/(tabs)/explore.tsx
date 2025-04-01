@@ -1,87 +1,98 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
-import Label from '@/components/Label';
-import Input from '@/components/Input';
-import { discogsApi } from '@/services/discogs-api';
-import { router } from 'expo-router';
-
-// Sanatçı tipi tanımı
-interface Artist {
-  id: number;
-  title: string;
-  thumb: string; // thumbnail resim URL'si
-  resource_url: string;
-}
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
+import Label from "@/components/Label";
+import Input from "@/components/Input";
+import { discogsApi } from "@/services/discogs-api";
+import { router } from "expo-router";
+import ListItem from "@/components/ListItem";
+import { ISearchResult } from "@/constants/types";
+import Toggle from "@/components/Toggle";
+import Button from "@/components/button";
+const toggledata: any[] = [
+  { label: "All", value: "all" },
+  { label: "Artists", value: "artists" },
+  { label: "Albums", value: "albums" },
+  { label: "Songs", value: "songs" },
+];
 
 export default function ExploreScreen() {
-  const [search, setSearch] = useState('');
-  const [artists, setArtists] = useState<Artist[]>([]);
+  const [selectedType, setSelectedType] = useState("all");
+  const [search, setSearch] = useState("");
+  const [results, setResults] = useState<ISearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Arama işlemi
   const handleSearch = async () => {
     if (!search.trim()) return;
 
     setLoading(true);
     setError(null);
-    
+
     try {
-      const result = await discogsApi.searchArtists(search);
-      setArtists(result.results);
+      const result = await discogsApi.search(search);
+      console.log(result);
+      setResults(result.results);
     } catch (err) {
-      setError('Arama sırasında bir hata oluştu. Lütfen tekrar deneyin.');
+      setError("Arama sırasında bir hata oluştu. Lütfen tekrar deneyin.");
       console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  // Sanatçı seçildiğinde yapılacak işlem
-  const handleSelectArtist = (artist: Artist) => {
-    // Burada sanatçıya tıklandığında sanatçı detayları veya albümleri sayfasına yönlendirme yapabilirsiniz
-    console.log('Seçilen sanatçı:', artist);
-    router.push(`/artist/${artist.id}`);
+  const handleSelect = (item: ISearchResult) => {
+    console.log(item);
+    if (item.type === "artist") {
+      router.push(`/artist/${item.id}`);
+    } else if (
+      item.type === "release" ||
+      item.type === "master" ||
+      item.type === "label"
+    ) {
+      router.push(`/album/${item.id}`);
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Label label="Search artists, songs, albums, and more..." />
+      <View style={{ paddingBottom: 10 }}>
+        <Toggle
+          data={toggledata}
+          selectedValue={selectedType}
+          onPress={(item) => {
+            setSelectedType(item.value);
+            console.log(item);
+          }}
+        />
+      </View>
       <View style={styles.searchContainer}>
         <Input
-          placeholder="Search"
+          placeholder="Search artists, songs, albums, and more..."
           value={search}
           onChangeText={setSearch}
           style={{ flex: 1 }}
         />
-        <TouchableOpacity 
-          style={styles.searchButton} 
-          onPress={handleSearch}
-          disabled={loading}
-        >
-          <Text style={styles.searchButtonText}>Ara</Text>
-        </TouchableOpacity>
+        <Button onPress={handleSearch} disabled={loading}>
+          <Text style={{ color: "white" }}>Search</Text>
+        </Button>
       </View>
 
       {error && <Text style={styles.errorText}>{error}</Text>}
-      
+
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />
       ) : (
         <FlatList
-          data={artists}
+          data={results}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity 
-              style={styles.artistItem}
-              onPress={() => handleSelectArtist(item)}
-            >
-              <Image 
-                source={{ uri: item.thumb || 'https://via.placeholder.com/50' }} 
-                style={styles.artistThumb} 
-              />
-              <Text style={styles.artistName}>{item.title}</Text>
-            </TouchableOpacity>
+            <ListItem data={item} handleClick={handleSelect} />
           )}
           ListEmptyComponent={
             !loading && search.trim() ? (
@@ -91,7 +102,7 @@ export default function ExploreScreen() {
         />
       )}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -100,47 +111,20 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   searchContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 20,
-  },
-  searchButton: {
-    backgroundColor: '#6200ee',
-    padding: 10,
-    marginLeft: 10,
-    borderRadius: 5,
-    justifyContent: 'center',
-  },
-  searchButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    gap: 5,
   },
   loader: {
     marginTop: 20,
   },
   errorText: {
-    color: 'red',
+    color: "red",
     marginBottom: 10,
   },
-  artistItem: {
-    flexDirection: 'row',
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    alignItems: 'center',
-  },
-  artistThumb: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 10,
-  },
-  artistName: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
   emptyText: {
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 20,
-    color: '#666',
+    color: "#666",
   },
 });
