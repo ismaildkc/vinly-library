@@ -83,4 +83,14 @@ export const discogsApi = {
       throw error;
     }
   },
+
+  getMasterDetails: async (masterId: string) => {
+    try {
+      const response = await api.get(`/masters/${masterId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Albüm detayları getirme hatası:", error);
+      throw error;
+    }
+  },
 };

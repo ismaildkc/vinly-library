@@ -14,6 +14,7 @@ import ListItem from "@/components/ListItem";
 import { ISearchResult } from "@/constants/types";
 import Toggle from "@/components/Toggle";
 import Button from "@/components/button";
+
 const toggledata: any[] = [
   { label: "All", value: "all" },
   { label: "Artists", value: "artists" },
