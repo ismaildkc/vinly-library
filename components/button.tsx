@@ -5,11 +5,12 @@ interface IButtonProps {
   children: React.ReactNode;
   onPress: () => void;
   disabled?: boolean;
+  primary?: boolean;
 }
 
-export default function Button({ children, onPress, disabled }: IButtonProps) {
+export default function Button({ children, onPress, disabled, primary = true }: IButtonProps) {
   return (
-    <Pressable onPress={onPress} style={styles.button} disabled={disabled}>
+    <Pressable onPress={onPress} style={[styles.button, primary ? styles.primary : styles.secondary]} disabled={disabled}>
       {children}
     </Pressable>
   );
@@ -17,9 +18,17 @@ export default function Button({ children, onPress, disabled }: IButtonProps) {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: Colors.light.cambridgeBlue,
     padding: 10,
-    borderRadius: 6,
+    borderRadius: 4,
     justifyContent: "center",
+    alignItems: "center",
+  },
+  primary: {
+    backgroundColor: Colors.light.black,
+    color: Colors.light.white,
+  },
+  secondary: {
+    backgroundColor: Colors.light.yellowDark,
+    color: Colors.light.black,
   },
 });

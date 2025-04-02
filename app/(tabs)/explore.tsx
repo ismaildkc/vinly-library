@@ -1,19 +1,8 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-} from "react-native";
-import Label from "@/components/Label";
-import Input from "@/components/Input";
-import { discogsApi } from "@/services/discogs-api";
-import { router } from "expo-router";
-import ListItem from "@/components/ListItem";
-import { ISearchResult } from "@/constants/types";
-import Toggle from "@/components/Toggle";
-import Button from "@/components/button";
+import React from "react";
+import { View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
+import Type from "@/components/Type";
+import Search from "@/components/Search";
+import AlbumCard from "@/components/AlbumCard";
 
 const toggledata: any[] = [
   { label: "All", value: "all" },
@@ -23,86 +12,35 @@ const toggledata: any[] = [
 ];
 
 export default function ExploreScreen() {
-  const [selectedType, setSelectedType] = useState("all");
-  const [search, setSearch] = useState("");
-  const [results, setResults] = useState<ISearchResult[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSearch = async () => {
-    if (!search.trim()) return;
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      const result = await discogsApi.search(search);
-      console.log(result);
-      setResults(result.results);
-    } catch (err) {
-      setError("Arama sırasında bir hata oluştu. Lütfen tekrar deneyin.");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSelect = (item: ISearchResult) => {
-    console.log(item);
-    if (item.type === "artist") {
-      router.push(`/artist/${item.id}`);
-    } else if (
-      item.type === "release" ||
-      item.type === "master" ||
-      item.type === "label"
-    ) {
-      router.push(`/album/${item.id}`);
-    }
-  };
-
   return (
-    <View style={styles.container}>
-      <View style={{ paddingBottom: 10 }}>
-        <Toggle
-          data={toggledata}
-          selectedValue={selectedType}
-          onPress={(item) => {
-            setSelectedType(item.value);
-            console.log(item);
-          }}
-        />
-      </View>
-      <View style={styles.searchContainer}>
-        <Input
-          placeholder="Search artists, songs, albums, and more..."
-          value={search}
-          onChangeText={setSearch}
-          style={{ flex: 1 }}
-        />
-        <Button onPress={handleSearch} disabled={loading}>
-          <Text style={{ color: "white" }}>Search</Text>
-        </Button>
-      </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView style={styles.container}>
+        <Type type="themeTitle" style={styles.subTitle}>
+          Search
+      </Type>
+      <Search />
 
-      {error && <Text style={styles.errorText}>{error}</Text>}
+      <Type type="themeTitle" style={styles.subTitle}>
+        Popular Albums
+      </Type>
 
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" style={styles.loader} />
-      ) : (
-        <FlatList
-          data={results}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <ListItem data={item} handleClick={handleSelect} />
-          )}
-          ListEmptyComponent={
-            !loading && search.trim() ? (
-              <Text style={styles.emptyText}>Sonuç bulunamadı</Text>
-            ) : null
-          }
-        />
-      )}
-    </View>
+      <View style={{ flexDirection: "row", gap: 10, flexWrap: "wrap", marginBottom: 32 }}>
+        {[1, 1, 1, 1, 1, 1].map((item, index) => (
+          <AlbumCard key={index} />
+        ))}
+      </View>
+      
+      <Type type="themeTitle" style={styles.subTitle}>
+        New Releases
+      </Type>
+
+      <View style={{ flexDirection: "row", gap: 10, flexWrap: "wrap" }}>
+        {[1, 1, 1, 1, 1, 1].map((item, index) => (
+          <AlbumCard key={index} />
+          ))}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -111,21 +49,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  searchContainer: {
-    flexDirection: "row",
-    marginBottom: 20,
-    gap: 5,
-  },
-  loader: {
-    marginTop: 20,
-  },
-  errorText: {
-    color: "red",
-    marginBottom: 10,
-  },
-  emptyText: {
-    textAlign: "center",
-    marginTop: 20,
-    color: "#666",
+  subTitle: {
+    fontSize: 22,
+    marginBottom: 8,
   },
 });

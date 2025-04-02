@@ -92,7 +92,7 @@ export default function ArtistDetailScreen() {
           renderItem={({ item }) => (
             <TouchableOpacity style={styles.releaseItem}>
               <Image 
-                source={{ uri: item.thumb || 'https://via.placeholder.com/80' }} 
+                source={{ uri: item.thumb || 'https://picsum.photos/200' }} 
                 style={styles.releaseThumb} 
               />
               <View style={styles.releaseInfo}>

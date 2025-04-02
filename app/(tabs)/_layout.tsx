@@ -28,7 +28,7 @@ export default function TabLayout() {
   }
 
   return (
-    <Tabs>
+    <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen
         name="explore"
         options={{
@@ -52,6 +52,13 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: 'Profil',
+          tabBarIcon: ({ color }) => <FontAwesome name="user" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="wishlist"
+        options={{
+          title: 'Wishlist',
           tabBarIcon: ({ color }) => <FontAwesome name="user" size={24} color={color} />,
         }}
       />

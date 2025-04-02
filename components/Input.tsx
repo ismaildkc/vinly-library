@@ -13,6 +13,9 @@ interface IInputProps {
   onChangeText: (text: string) => void;
   style?: StyleProp<TextStyle>;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+  secureTextEntry?: boolean;
+  keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
+  autoFocus?: boolean;
 }
 
 export default function Input({
@@ -21,6 +24,9 @@ export default function Input({
   onChangeText,
   style,
   autoCapitalize = 'none',
+  secureTextEntry = false,
+  keyboardType = 'default',
+  autoFocus = false,
 }: IInputProps) {
   return (
     <TextInput
@@ -29,16 +35,18 @@ export default function Input({
       value={value}
       onChangeText={onChangeText}
       autoCapitalize={autoCapitalize}
+      secureTextEntry={secureTextEntry}
+      keyboardType={keyboardType}
+      autoFocus={autoFocus}
     />
   );
 }
 
 const styles = StyleSheet.create({
   input: {
-    height: 40,
     borderWidth: 1,
-    borderColor: Colors.light.cambridgeBlue,
-    borderRadius: 5,
+    borderColor: Colors.light.black,
+    borderRadius: 4,
     padding: 10,
   },
 });

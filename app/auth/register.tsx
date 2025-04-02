@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, Alert, View, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, Alert, View } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 
 import { useAuth } from '@/context/AuthContext';
+import Type from '@/components/Type';
+import Input from '@/components/Input';
+import Button from '@/components/button';
+import { Colors } from '@/constants/Colors';
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState('');
@@ -36,46 +40,42 @@ export default function RegisterScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Kayıt Ol</Text>
+      <Type type="themeTitle" style={{ textAlign: "center", marginBottom: 5 }}>Sign Up</Type>
       
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
+      <Input
+        placeholder="E-mail"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
       />
       
-      <TextInput
-        style={styles.input}
-        placeholder="Şifre"
+      <Input
+        placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
       
-      <TextInput
-        style={styles.input}
-        placeholder="Şifreyi Tekrarla"
+      <Input
+        placeholder="Confirm Password"
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         secureTextEntry
       />
       
-      <TouchableOpacity 
-        style={styles.button} 
+      <Button 
         onPress={handleRegister}
         disabled={isLoading}
       >
-        <Text style={styles.buttonText}>
-          {isLoading ? 'Kayıt yapılıyor...' : 'Kayıt Ol'}
-        </Text>
-      </TouchableOpacity>
+        <Type style={{ color: Colors.light.white, fontSize: 16 }}>
+          {isLoading ? 'Register...' : 'Rregister'}
+        </Type>
+      </Button>
       
       <Link href="/auth/login" asChild>
         <TouchableOpacity style={styles.linkButton}>
-          <Text>Zaten bir hesabınız var mı? Giriş yapın</Text>
+          <Type>Don't have an account? Sign up</Type>
         </TouchableOpacity>
       </Link>
     </View>
@@ -85,34 +85,10 @@ export default function RegisterScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    height: 50,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    marginBottom: 15,
-    paddingHorizontal: 10,
-  },
-  button: {
-    backgroundColor: '#007BFF',
-    height: 50,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    paddingHorizontal: 20,
+    paddingBottom: 70,
+    justifyContent: "center",
+    gap: 10,
   },
   linkButton: {
     alignItems: 'center',
