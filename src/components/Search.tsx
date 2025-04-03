@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import Octicons from "@expo/vector-icons/Octicons";
 import { Colors } from "@/src/constants/Colors";
 import Modal from "@/src/components/Modal";
-import { Spacing } from "@/src/constants/Sizes";
+import { Size } from "@/src/constants/Sizes";
 export default function Search() {
   const showSearchModal = () => {
     router.push("/search");
@@ -63,9 +63,9 @@ const styles = StyleSheet.create({
   searchButton: {
     borderWidth: 1,
     borderColor: Colors.light.primaryLight,
-    borderRadius: Spacing.borderRadius.md,
-    paddingVertical: Spacing.padding.md,
-    paddingHorizontal: Spacing.padding.md,
+    borderRadius: Size.borderRadius.md,
+    paddingVertical: Size.padding.md,
+    paddingHorizontal: Size.padding.md,
     flexDirection: "row",
     alignItems: "center",
     gap: 10,

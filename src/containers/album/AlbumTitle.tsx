@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Pressable } from "react-native";
 import { Link } from "expo-router";
 import { Colors } from "@/src/constants/Colors";
 import Type from "@/src/components/Type";
@@ -8,15 +8,21 @@ import { Size } from "@/src/constants/Sizes";
 
 interface IAlbumTitleProps {
   album: any;
+  onAddToLibrary: () => void;
+  onAddToWishlist: () => void;
 }
 
-export default function AlbumTitle({ album }: IAlbumTitleProps) {
+export default function AlbumTitle({ album, onAddToLibrary, onAddToWishlist }: IAlbumTitleProps) {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Type style={styles.title}>{album?.title}</Type>
-        <Feather name="plus-circle" size={Size.fontSize.lg} color={Colors.light.gray} />
-        <Feather name="heart" size={Size.fontSize.lg} color={Colors.light.gray} />
+        <Pressable onPress={onAddToLibrary}>
+          <Feather name="plus-circle" size={Size.fontSize.lg} color={Colors.light.gray} />
+        </Pressable>
+        <Pressable onPress={onAddToWishlist}>
+          <Feather name="heart" size={Size.fontSize.lg} color={Colors.light.gray} />
+        </Pressable>
       </View>
 
       <View style={{ flexDirection: "row", gap: 10 }}>

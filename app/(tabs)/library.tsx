@@ -50,4 +50,16 @@ const mockData = {
   genres: ["Rock"],
   styles: ["Prog Rock", "Psychedelic Rock"],
   year: 1973,
+  num_for_sale: 10,
+  tracks: [{
+    id: 1,
+    title: "Breathe (2021 Remaster)",
+    duration: "6:36"
+  }],
+  artists: [{
+    id: 1,
+    name: "Pink Floyd",
+    thumbnail_url: "https://i.discogs.com/1234567890/1234567890.jpg"
+  }],
+  
 }

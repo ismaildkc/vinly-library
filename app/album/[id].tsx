@@ -9,17 +9,22 @@ import {
 import { useLocalSearchParams, Stack, Link } from "expo-router";
 import { discogsApi } from "@/src/services/discogs-api";
 import AlbumTitle from "@/src/containers/album/AlbumTitle";
-import { Size } from "@/src/constants/Sizes";
 import Type from "@/src/components/Type";
 import { Colors } from "@/src/constants/Colors";
 import CoverImage from "@/src/containers/album/CoverImage";
 import TopBar from "@/src/components/common/TopBar";
 import TrackList from "@/src/containers/album/TrackList";
 import AlbumInfo from "@/src/containers/album/AlbumInfo";
+import { useAuth } from "@/context/AuthContext";
+import { ILibraryItem } from "@/src/constants/types";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "@/config/firebase";
 
 export default function AlbumDetailScreen() {
+  const { user } = useAuth();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [album, setAlbum] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     console.log(id);
@@ -37,6 +42,45 @@ export default function AlbumDetailScreen() {
     }
   };
 
+  const addToLibrary = async () => {
+    try {
+      setLoading(true);
+      if (!user) {
+        console.log("Hata", "Lütfen önce giriş yapın");
+        return;
+      }
+
+      const payload: ILibraryItem = {
+        userId: user.uid,
+        createdAt: new Date(),
+
+        name: album.title,
+        image: album.images[0].resource_url,
+        discogs_id: album.id,
+        discogs_uri: album.uri,
+        genres: album.genres,
+        styles: album.styles,
+        year: album.year,
+        artists: album.artists,
+        num_for_sale: album.num_for_sale,
+        tracks: album.tracklist,
+      }
+
+      // 'library' koleksiyonuna yeni döküman ekle
+      const docRef = await addDoc(collection(db, "library"), payload);
+      console.log("Document written with ID: ", docRef.id);
+      
+    } catch (error: any) {
+      console.error("Error adding document: ", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addToWishlist = () => {
+    console.log("addToWishlist");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <TopBar />
@@ -48,14 +92,18 @@ export default function AlbumDetailScreen() {
 
         <View style={styles.innerContainer}>
           {/* Album Title */}
-          <AlbumTitle album={album} />
+          <AlbumTitle
+            album={album}
+            onAddToLibrary={addToLibrary}
+            onAddToWishlist={addToWishlist}
+          />
 
           {/* Album Info */}
           <AlbumInfo album={album} />
 
           {/* Album Tracks */}
           <TrackList album={album} />
-          
+
           {/* Album Images */}
           <View style={{ paddingTop: 10, paddingBottom: 30, gap: 5 }}>
             <Type>Album Images</Type>

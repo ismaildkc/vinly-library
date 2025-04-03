@@ -24,4 +24,7 @@ export interface ILibraryItem {
   year: number;
   userId: string; // Kullanıcıya özel kayıtlar için
   createdAt: Date;
+  artists: any[];
+  num_for_sale: number;
+  tracks: any[];
 }
