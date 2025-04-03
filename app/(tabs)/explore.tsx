@@ -1,8 +1,9 @@
 import React from "react";
 import { View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
-import Type from "@/components/Type";
-import Search from "@/components/Search";
-import AlbumCard from "@/components/AlbumCard";
+import Type from "@/src/components/Type";
+import Search from "@/src/components/Search";
+import Section from "@/src/components/Section";
+import { Spacing } from "@/src/constants/Sizes";
 
 const toggledata: any[] = [
   { label: "All", value: "all" },
@@ -15,30 +16,16 @@ export default function ExploreScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={styles.container}>
+        
         <Type type="themeTitle" style={styles.subTitle}>
           Search
-      </Type>
-      <Search />
+        </Type>
+        <Search />
 
-      <Type type="themeTitle" style={styles.subTitle}>
-        Popular Albums
-      </Type>
+        <Section title="Popular Albums" cards={[1,1,1,1,1,1]} />
+        <Section title="New Releases" cards={[1,1,1,1,1,1]} />
 
-      <View style={{ flexDirection: "row", gap: 10, flexWrap: "wrap", marginBottom: 32 }}>
-        {[1, 1, 1, 1, 1, 1].map((item, index) => (
-          <AlbumCard key={index} />
-        ))}
-      </View>
-      
-      <Type type="themeTitle" style={styles.subTitle}>
-        New Releases
-      </Type>
-
-      <View style={{ flexDirection: "row", gap: 10, flexWrap: "wrap" }}>
-        {[1, 1, 1, 1, 1, 1].map((item, index) => (
-          <AlbumCard key={index} />
-          ))}
-        </View>
+        
       </ScrollView>
     </SafeAreaView>
   );
@@ -47,10 +34,10 @@ export default function ExploreScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: Spacing.padding.lg,
   },
   subTitle: {
-    fontSize: 22,
-    marginBottom: 8,
+    fontSize: Spacing.fontSize.xxl,
+    marginBottom: Spacing.padding.sm,
   },
 });

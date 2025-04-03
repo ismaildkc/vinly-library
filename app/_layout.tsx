@@ -8,7 +8,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider } from '@/context/AuthContext';
-import { Colors } from '@/constants/Colors';
+import { Colors } from '@/src/constants/Colors';
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -17,9 +17,7 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     DMSerifDisplay: require('../assets/fonts/DMSerifDisplay-Regular.ttf'),
-    'KantumruyPro-Bold': require('../assets/fonts/KantumruyPro-Bold.ttf'),
-    'KantumruyPro-Light': require('../assets/fonts/KantumruyPro-Light.ttf'),
-    'KantumruyPro-Regular': require('../assets/fonts/KantumruyPro-Regular.ttf'),
+    KantumruyPro: require('../assets/fonts/KantumruyPro-VariableFont_wght.ttf'),
   });
 
   useEffect(() => {
@@ -44,8 +42,8 @@ export default function RootLayout() {
         ...DefaultTheme,
         colors: {
           ...DefaultTheme.colors,
-          background: Colors.light.white
-        }
+          background: Colors.light.primaryDark
+        },
       }}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

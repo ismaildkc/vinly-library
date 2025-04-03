@@ -1,11 +1,12 @@
 import React from "react";
-import { Colors } from "@/constants/Colors";
+import { Colors } from "@/src/constants/Colors";
 import {
   StyleSheet,
   TextInput,
   StyleProp,
   TextStyle,
 } from "react-native";
+import { Spacing } from "@/src/constants/Sizes";
 
 interface IInputProps {
   placeholder?: string;
@@ -38,15 +39,17 @@ export default function Input({
       secureTextEntry={secureTextEntry}
       keyboardType={keyboardType}
       autoFocus={autoFocus}
+      placeholderTextColor={Colors.light.gray}
     />
   );
 }
 
 const styles = StyleSheet.create({
   input: {
+    color: Colors.light.white,
     borderWidth: 1,
     borderColor: Colors.light.black,
-    borderRadius: 4,
-    padding: 10,
+    borderRadius: Spacing.borderRadius.sm,
+    padding: Spacing.padding.md,
   },
 });

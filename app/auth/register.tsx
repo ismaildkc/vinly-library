@@ -3,10 +3,10 @@ import { StyleSheet, TouchableOpacity, Alert, View } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 
 import { useAuth } from '@/context/AuthContext';
-import Type from '@/components/Type';
-import Input from '@/components/Input';
-import Button from '@/components/button';
-import { Colors } from '@/constants/Colors';
+import Type from '@/src/components/Type';
+import Input from '@/src/components/Input';
+import Button from '@/src/components/button';
+import { Colors } from '@/src/constants/Colors';
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState('');
@@ -69,7 +69,7 @@ export default function RegisterScreen() {
         disabled={isLoading}
       >
         <Type style={{ color: Colors.light.white, fontSize: 16 }}>
-          {isLoading ? 'Register...' : 'Rregister'}
+          {isLoading ? 'REGISTERING...' : 'REGISTER'}
         </Type>
       </Button>
       

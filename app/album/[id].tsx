@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { View, Image, ScrollView, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Image,
+  ScrollView,
+  StyleSheet,
+  SafeAreaView,
+} from "react-native";
 import { useLocalSearchParams, Stack, Link } from "expo-router";
-import { discogsApi } from "@/services/discogs-api";
-import Octicons from "@expo/vector-icons/Octicons";
-import Feather from "@expo/vector-icons/Feather";
+import { discogsApi } from "@/src/services/discogs-api";
+import AlbumTitle from "@/src/containers/album/AlbumTitle";
+import { Size } from "@/src/constants/Sizes";
+import Type from "@/src/components/Type";
+import { Colors } from "@/src/constants/Colors";
+import CoverImage from "@/src/containers/album/CoverImage";
+import TopBar from "@/src/components/common/TopBar";
+import TrackList from "@/src/containers/album/TrackList";
 
 export default function AlbumDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -26,110 +37,85 @@ export default function AlbumDetailScreen() {
   };
 
   return (
-    <ScrollView>
-      <Stack.Screen options={{ title: "Sanatçı Detayları" }} />
-      {/* Cover Image */}
-      <View style={{ paddingVertical: 10 }}>
-        <Image
-          source={{ uri: album?.images[0].resource_url }}
-          style={styles.coverImage}
-        />
-      </View>
+    <SafeAreaView style={styles.container}>
+      <TopBar />
 
-      {/* Album Title */}
-      <View style={{ padding: 10, gap: 5 }}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <Text style={styles.title}>{album?.title}</Text>
-          <Feather name="plus-circle" size={20} color="black" />
-        </View>
+      <ScrollView>
+        <Stack.Screen options={{ headerShown: false }} />
+        {/* Cover Image */}
+        <CoverImage album={album} />
 
-        <View style={{ flexDirection: "row", gap: 10 }}>
-          {album?.artists.map((artist: any, index: number) => (
-            <View key={index}>
-              <Link href={`/artist/${artist.id}`}>
-                <View
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "row",
-                    gap: 5,
-                    paddingTop: 5,
-                  }}
-                >
-                  <Image
-                    source={{ uri: artist.thumbnail_url }}
-                    style={styles.miniThumbnail}
-                  />
-                  <Text>{artist.name}</Text>
-                </View>
-              </Link>
-              {index !== album?.artists.length - 1 && (
-                <Octicons name="dot-fill" size={12} color="black" />
-              )}
+        <View style={styles.innerContainer}>
+          {/* Album Title */}
+          <AlbumTitle album={album} />
+
+          <View style={{ flexDirection: "row", gap: 10, flexWrap: "wrap", paddingTop: 10 }}>
+            <View>
+              <Type>
+                <Type style={{ fontWeight: "bold", color: Colors.light.yellow }}>
+                  Type:{" "}
+                </Type>
+                Album
+              </Type>
             </View>
-          ))}
-        </View>
 
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <Text>Album</Text>
-          <Octicons name="dot-fill" size={12} color="black" />
-          <Text>{album?.year}</Text>
-        </View>
-      </View>
-
-      {/* Album Images */}
-      <View style={{ padding: 10, gap: 5 }}>
-        <Text>Album Images</Text>
-        <View style={{ flexDirection: "row", gap: 5, flexWrap: "wrap" }}>
-          {album?.images.map((img: any) => (
-            <Image
-              source={{ uri: img.resource_url }}
-              style={{ width: 25, height: 25, borderRadius: 4 }}
-            />
-          ))}
-        </View>
-      </View>
-
-      {/* Album Tracks */}
-      <View style={{ padding: 10, gap: 5 }}>
-        <Text style={styles.subTitle}>Album Tracks</Text>
-        <View style={{ flexDirection: "column", gap: 5, flexWrap: "wrap" }}>
-          {album?.tracklist.map((track: any, index: number) => (
-            <View
-              key={index}
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingVertical: 5,
-              }}
-            >
-              <Text>{track.title}</Text>
-              <Text>{track.duration || "00:00"}</Text>
+            <View>
+              <Type>
+                <Type style={{ fontWeight: "bold", color: Colors.light.yellow }}>
+                  Year:{" "}
+                </Type>
+                {album?.year}
+              </Type>
             </View>
-          ))}
+
+            <View>
+              <Type>
+                <Type style={{ fontWeight: "bold", color: Colors.light.yellow }}>
+                  Genre:{" "}
+                </Type>
+                {album?.genres.join(", ")}
+              </Type>
+            </View>
+            
+            <View>
+              <Type>
+                <Type style={{ fontWeight: "bold", color: Colors.light.yellow }}>
+                  Sales:{" "}
+                </Type>
+                {album?.num_for_sale}
+              </Type>
+            </View>
+          </View>
+
+
+          {/* Album Tracks */}
+          <TrackList album={album} />
         </View>
-      </View>
-    </ScrollView>
+
+        {/* Album Images */}
+        {/* <View style={{ padding: 10, gap: 5 }}>
+          <Type>Album Images</Type>
+          <View style={{ flexDirection: "row", gap: 5, flexWrap: "wrap" }}>
+            {album?.images.map((img: any) => (
+              <Image
+                source={{ uri: img.resource_url }}
+                style={{ width: 25, height: 25, borderRadius: 4 }}
+              />
+            ))}
+          </View>
+        </View> */}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  coverImage: {
-    width: "100%",
-    height: 200,
-    objectFit: "contain",
+  container: {
+    flex: 1,
+    backgroundColor: Colors.light.primaryDark,
   },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  subTitle: {
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  miniThumbnail: {
-    width: 18,
-    height: 18,
-    borderRadius: 15,
+  innerContainer: {
+    padding: 10,
+    gap: 5,
   },
 });

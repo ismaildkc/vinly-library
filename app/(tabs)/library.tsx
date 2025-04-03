@@ -2,7 +2,7 @@ import { View, Text, SafeAreaView, Button, Alert } from "react-native";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import { useAuth } from "@/context/AuthContext";
-import { ILibraryItem } from "@/constants/types";
+import { ILibraryItem } from "@/src/constants/types";
 
 export default function LibraryScreen() {
   const { user } = useAuth();

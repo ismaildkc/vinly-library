@@ -1,10 +1,10 @@
 import { View, StyleSheet, Pressable } from "react-native";
-import Type from "@/components/Type";
+import Type from "@/src/components/Type";
 import { router } from "expo-router";
 import Octicons from "@expo/vector-icons/Octicons";
-import { Colors } from "@/constants/Colors";
-import Modal from "@/components/Modal";
-
+import { Colors } from "@/src/constants/Colors";
+import Modal from "@/src/components/Modal";
+import { Spacing } from "@/src/constants/Sizes";
 export default function Search() {
   const showSearchModal = () => {
     router.push("/search");
@@ -15,7 +15,7 @@ export default function Search() {
   return (
     <View>
       <Pressable style={styles.searchButton} onPress={showSearchModal}>
-        <Octicons name="search" size={24} color="black" />
+        <Octicons name="search" size={22} color={Colors.light.gray} />
         <Type>Search artists, songs, albums, and more...</Type>
       </Pressable>
 
@@ -62,9 +62,10 @@ export default function Search() {
 const styles = StyleSheet.create({
   searchButton: {
     borderWidth: 1,
-    borderColor: Colors.light.black,
-    borderRadius: 10,
-    padding: 10,
+    borderColor: Colors.light.primaryLight,
+    borderRadius: Spacing.borderRadius.md,
+    paddingVertical: Spacing.padding.md,
+    paddingHorizontal: Spacing.padding.md,
     flexDirection: "row",
     alignItems: "center",
     gap: 10,

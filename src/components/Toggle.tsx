@@ -1,6 +1,6 @@
 import { Animated, Pressable, View, Text, StyleSheet } from "react-native";
 import { useRef, useEffect } from "react";
-import { Colors } from "@/constants/Colors";
+import { Colors } from "@/src/constants/Colors";
 
 interface IToggleProps {
   data: IToggleItem[];

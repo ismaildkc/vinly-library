@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, Alert, View } from "react-native";
 import { Link, useRouter } from "expo-router";
-import Button from "@/components/button";
+import Button from "@/src/components/button";
 import { useAuth } from "@/context/AuthContext";
-import Type from "@/components/Type";
-import Input from "@/components/Input";
-import { Colors } from "@/constants/Colors";
+import Type from "@/src/components/Type";
+import Input from "@/src/components/Input";
+import { Colors } from "@/src/constants/Colors";
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -53,7 +53,7 @@ export default function LoginScreen() {
 
       <Button onPress={handleLogin} disabled={isLoading}>
         <Type style={{ color: Colors.light.white, fontSize: 16 }}>
-          {isLoading ? "Login..." : "Login"}
+          {isLoading ? "LOGIN..." : "LOGIN"}
         </Type>
       </Button>
 

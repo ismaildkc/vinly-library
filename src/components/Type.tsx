@@ -1,5 +1,5 @@
 import React from "react";
-import { Colors } from "@/constants/Colors";
+import { Colors } from "@/src/constants/Colors";
 import { StyleProp, StyleSheet, Text, TextStyle } from "react-native";
 
 interface ITypeProps {
@@ -14,8 +14,8 @@ export default function Type({ children, type = "body", style }: ITypeProps) {
 
 const styles: any = StyleSheet.create({
   text: {
-    fontFamily: 'KantumruyPro-Regular',
-    color: Colors.light.black,
+    fontFamily: 'KantumruyPro-VariableFont_wght',
+    color: Colors.light.white,
   },
   title: {
     fontSize: 24,
@@ -33,5 +33,6 @@ const styles: any = StyleSheet.create({
     fontFamily: "DMSerifDisplay",
     fontSize: 28,
     fontWeight: "bold",
+    color: Colors.light.yellow,
   },
 });

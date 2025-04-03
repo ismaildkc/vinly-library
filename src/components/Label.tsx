@@ -1,5 +1,5 @@
 import React from "react";
-import { Colors } from "@/constants/Colors";
+import { Colors } from "@/src/constants/Colors";
 import { StyleProp, Text, TextStyle, StyleSheet } from "react-native";
 
 interface ILabelProps {

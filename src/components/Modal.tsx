@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { View, StyleSheet, Modal as RNModal, Pressable } from 'react-native';
-import { Colors } from '@/constants/Colors';
+import { Colors } from '@/src/constants/Colors';
 import Type from './Type';
 import Button from './button';
 

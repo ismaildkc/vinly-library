@@ -1,7 +1,8 @@
-import { ISearchResult } from "@/constants/types";
+import { ISearchResult } from "@/src/constants/types";
 import { TouchableOpacity, Image, Text, StyleSheet, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
-import { Colors } from "@/constants/Colors";
+import { Colors } from "@/src/constants/Colors";
+import { Spacing } from "@/src/constants/Sizes";
 
 interface IListItemProps {
   data: ISearchResult;
@@ -22,9 +23,11 @@ export default function ListItem({ data, handleClick }: IListItemProps) {
         <Text style={styles.type}>{data.type} - {data.year}</Text>
       </View>
 
-      <View style={{ marginLeft: "auto" }}>
-        <Feather name="plus-circle" size={20} color="black" />
-      </View>
+      {(data.type === "master" || data.type === "release") && (
+        <View style={{ marginLeft: "auto" }}>
+          <Feather name="plus-circle" size={20} color={Colors.light.white} />
+        </View>
+      )}
     </TouchableOpacity>
   );
 }
@@ -34,14 +37,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.light.gray,
+    borderBottomColor: Colors.light.primaryLight,
     alignItems: "center",
+    gap: 15,
   },
   thumb: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginRight: 10,
   },
   contentContainer: {
     gap: 3,
@@ -49,12 +52,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 14,
+    fontSize: Spacing.fontSize.sm,
     fontWeight: "bold",
+    color: Colors.light.white,
   },
   type: {
-    fontSize: 12,
-    color: "gray",
+    fontSize: Spacing.fontSize.xs,
+    color: Colors.light.gray,
     textTransform: "capitalize",
   },
 });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import { useLocalSearchParams, Stack } from 'expo-router';
-import { discogsApi } from '@/services/discogs-api';
+import { discogsApi } from '@/src/services/discogs-api';
 
 // Tip tanımlamaları
 interface ArtistDetails {
