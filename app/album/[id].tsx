@@ -15,6 +15,7 @@ import { Colors } from "@/src/constants/Colors";
 import CoverImage from "@/src/containers/album/CoverImage";
 import TopBar from "@/src/components/common/TopBar";
 import TrackList from "@/src/containers/album/TrackList";
+import AlbumInfo from "@/src/containers/album/AlbumInfo";
 
 export default function AlbumDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -49,61 +50,25 @@ export default function AlbumDetailScreen() {
           {/* Album Title */}
           <AlbumTitle album={album} />
 
-          <View style={{ flexDirection: "row", gap: 10, flexWrap: "wrap", paddingTop: 10 }}>
-            <View>
-              <Type>
-                <Type style={{ fontWeight: "bold", color: Colors.light.yellow }}>
-                  Type:{" "}
-                </Type>
-                Album
-              </Type>
-            </View>
-
-            <View>
-              <Type>
-                <Type style={{ fontWeight: "bold", color: Colors.light.yellow }}>
-                  Year:{" "}
-                </Type>
-                {album?.year}
-              </Type>
-            </View>
-
-            <View>
-              <Type>
-                <Type style={{ fontWeight: "bold", color: Colors.light.yellow }}>
-                  Genre:{" "}
-                </Type>
-                {album?.genres.join(", ")}
-              </Type>
-            </View>
-            
-            <View>
-              <Type>
-                <Type style={{ fontWeight: "bold", color: Colors.light.yellow }}>
-                  Sales:{" "}
-                </Type>
-                {album?.num_for_sale}
-              </Type>
-            </View>
-          </View>
-
+          {/* Album Info */}
+          <AlbumInfo album={album} />
 
           {/* Album Tracks */}
           <TrackList album={album} />
-        </View>
-
-        {/* Album Images */}
-        {/* <View style={{ padding: 10, gap: 5 }}>
-          <Type>Album Images</Type>
-          <View style={{ flexDirection: "row", gap: 5, flexWrap: "wrap" }}>
-            {album?.images.map((img: any) => (
-              <Image
-                source={{ uri: img.resource_url }}
-                style={{ width: 25, height: 25, borderRadius: 4 }}
-              />
-            ))}
+          
+          {/* Album Images */}
+          <View style={{ paddingTop: 10, paddingBottom: 30, gap: 5 }}>
+            <Type>Album Images</Type>
+            <View style={{ flexDirection: "row", gap: 5, flexWrap: "wrap" }}>
+              {album?.images.map((img: any) => (
+                <Image
+                  source={{ uri: img.resource_url }}
+                  style={{ width: 25, height: 25, borderRadius: 4 }}
+                />
+              ))}
+            </View>
           </View>
-        </View> */}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
