@@ -2,7 +2,7 @@ import { ISearchResult } from "@/src/constants/types";
 import { TouchableOpacity, Image, Text, StyleSheet, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import { Colors } from "@/src/constants/Colors";
-import { Spacing } from "@/src/constants/Sizes";
+import { Size } from "@/src/constants/Sizes";
 
 interface IListItemProps {
   data: ISearchResult;
@@ -42,9 +42,9 @@ const styles = StyleSheet.create({
     gap: 15,
   },
   thumb: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 55,
+    height: 55,
+    borderRadius: 8,
   },
   contentContainer: {
     gap: 3,
@@ -52,12 +52,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: Spacing.fontSize.sm,
+    fontSize: Size.fontSize.sm,
     fontWeight: "bold",
     color: Colors.light.white,
   },
   type: {
-    fontSize: Spacing.fontSize.xs,
+    fontSize: Size.fontSize.xs,
     color: Colors.light.gray,
     textTransform: "capitalize",
   },

@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import Type from "./Type";
 import AlbumCard from "./AlbumCard";
-import { Spacing } from "@/src/constants/Sizes";
+import { Size } from "@/src/constants/Sizes";
 interface ISectionProps {
   title: string;
   cards: any[];
@@ -26,16 +26,16 @@ export default function Section({ title, cards }: ISectionProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: Spacing.padding.md,
+    paddingVertical: Size.padding.md,
   },
   subTitle: {
-    fontSize: Spacing.fontSize.xxl,
-    marginBottom: Spacing.padding.sm,
-    // marginLeft: Spacing.padding.xxs,
+    fontSize: Size.fontSize.xxl,
+    marginBottom: Size.padding.sm,
+    // marginLeft: Size.padding.xxs,
   },
   cardContainer: {
     flexDirection: "row",
-    gap: Spacing.padding.md,
+    gap: Size.padding.md,
     flexWrap: "wrap",
   },
 });

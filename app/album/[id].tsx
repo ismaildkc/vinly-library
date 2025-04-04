@@ -62,8 +62,6 @@ export default function AlbumDetailScreen() {
         styles: album.styles,
         year: album.year,
         artists: album.artists,
-        num_for_sale: album.num_for_sale,
-        tracks: album.tracklist,
       }
 
       // 'library' koleksiyonuna yeni döküman ekle
@@ -108,8 +106,9 @@ export default function AlbumDetailScreen() {
           <View style={{ paddingTop: 10, paddingBottom: 30, gap: 5 }}>
             <Type>Album Images</Type>
             <View style={{ flexDirection: "row", gap: 5, flexWrap: "wrap" }}>
-              {album?.images.map((img: any) => (
+              {album?.images.map((img: any, index: number) => (
                 <Image
+                  key={index}
                   source={{ uri: img.resource_url }}
                   style={{ width: 25, height: 25, borderRadius: 4 }}
                 />

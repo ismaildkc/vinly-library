@@ -15,6 +15,7 @@ export interface ISearchResult {
 }
 
 export interface ILibraryItem {
+  id?: string;
   name: string;
   image: string;
   discogs_id: number;
@@ -25,6 +26,4 @@ export interface ILibraryItem {
   userId: string; // Kullanıcıya özel kayıtlar için
   createdAt: Date;
   artists: any[];
-  num_for_sale: number;
-  tracks: any[];
 }

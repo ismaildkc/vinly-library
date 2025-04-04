@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
 import Type from "@/src/components/Type";
 import Search from "@/src/components/Search";
 import Section from "@/src/components/Section";
-import { Spacing } from "@/src/constants/Sizes";
+import { Size } from "@/src/constants/Sizes";
 
 const toggledata: any[] = [
   { label: "All", value: "all" },
@@ -34,10 +34,10 @@ export default function ExploreScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: Spacing.padding.lg,
+    padding: Size.padding.lg,
   },
   subTitle: {
-    fontSize: Spacing.fontSize.xxl,
-    marginBottom: Spacing.padding.sm,
+    fontSize: Size.fontSize.xxl,
+    marginBottom: Size.padding.sm,
   },
 });

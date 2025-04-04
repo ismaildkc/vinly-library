@@ -1,6 +1,6 @@
 import { Colors } from "@/src/constants/Colors";
 import { Pressable, StyleSheet } from "react-native";
-import { Spacing } from "@/src/constants/Sizes";
+import { Size } from "@/src/constants/Sizes";
 interface IButtonProps {
   children: React.ReactNode;
   onPress: () => void;
@@ -18,8 +18,8 @@ export default function Button({ children, onPress, disabled, primary = true }: 
 
 const styles = StyleSheet.create({
   button: {
-    padding: Spacing.padding.md,
-    borderRadius: Spacing.borderRadius.sm,
+    padding: Size.padding.md,
+    borderRadius: Size.borderRadius.sm,
     justifyContent: "center",
     alignItems: "center",
   },

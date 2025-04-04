@@ -6,7 +6,7 @@ import {
   StyleProp,
   TextStyle,
 } from "react-native";
-import { Spacing } from "@/src/constants/Sizes";
+import { Size } from "@/src/constants/Sizes";
 
 interface IInputProps {
   placeholder?: string;
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     color: Colors.light.white,
     borderWidth: 1,
     borderColor: Colors.light.black,
-    borderRadius: Spacing.borderRadius.sm,
-    padding: Spacing.padding.md,
+    borderRadius: Size.borderRadius.sm,
+    padding: Size.padding.md,
   },
 });

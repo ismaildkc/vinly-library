@@ -6,7 +6,7 @@ import { Pressable } from "react-native";
 
 import { useAuth } from "@/context/AuthContext";
 import { Colors } from "@/src/constants/Colors";
-import { Spacing } from "@/src/constants/Sizes";
+import { Size } from "@/src/constants/Sizes";
 
 export default function TabLayout() {
   const { user, loading, logout } = useAuth();
@@ -37,13 +37,13 @@ export default function TabLayout() {
           backgroundColor: Colors.light.primaryDark,
           borderTopColor: Colors.light.primaryLight,
           borderTopWidth: 1,
-          height: 86,
+          height: 100,
           paddingTop: 6,
         },
         tabBarActiveTintColor: Colors.light.yellow,
         tabBarInactiveTintColor: Colors.light.gray,
         tabBarLabelStyle: {
-          fontSize: Spacing.fontSize.xs,
+          fontSize: Size.fontSize.xs,
           fontWeight: "light",
         },
       }}
