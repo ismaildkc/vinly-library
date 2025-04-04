@@ -9,12 +9,15 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider } from '@/context/AuthContext';
 import { Colors } from '@/src/constants/Colors';
+import { Provider, useSelector } from 'react-redux'
+import { store } from '@/src/store';
 import Loader from './_loader';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+function RootLayoutContent() {
+  const isLoading = useSelector((state: any) => state.global.isLoading);
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -61,8 +64,17 @@ export default function RootLayout() {
             }} 
           />
         </Stack>
+        {isLoading && <Loader />}
         <StatusBar style="auto" />
       </ThemeProvider>
     </AuthProvider>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <Provider store={store}>
+      <RootLayoutContent />
+    </Provider>
   );
 }

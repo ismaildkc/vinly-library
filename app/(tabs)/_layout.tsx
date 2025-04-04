@@ -7,6 +7,7 @@ import { Pressable } from "react-native";
 import { useAuth } from "@/context/AuthContext";
 import { Colors } from "@/src/constants/Colors";
 import { Size } from "@/src/constants/Sizes";
+import Loader from "../_loader";
 
 export default function TabLayout() {
   const { user, loading, logout } = useAuth();
@@ -47,7 +48,7 @@ export default function TabLayout() {
           fontWeight: "light",
         },
       }}
-    >
+    > 
       <Tabs.Screen
         name="explore"
         options={{
