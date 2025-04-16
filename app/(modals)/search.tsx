@@ -120,7 +120,13 @@ export default function SearchModal() {
                   data={results}
                   keyExtractor={(item) => item.id.toString()}
                   renderItem={({ item }) => (
-                    <ListItem data={item} handleClick={handleSelect} />
+                    <ListItem 
+                      image={item.thumb} 
+                      title={item.title} 
+                      type={item.type} 
+                      year={item.year || ""} 
+                      handleClick={() => handleSelect(item)} 
+                    />
                   )}
                   ListEmptyComponent={
                     !loading && search.trim() ? (

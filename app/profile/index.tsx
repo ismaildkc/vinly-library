@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Alert, View, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, Alert, View, Text, SafeAreaView } from 'react-native';
 import { useRouter } from 'expo-router';
 
 import { useAuth } from '@/context/AuthContext';
+import { Colors } from '@/src/constants/Colors';
 
 export default function ProfileScreen() {
   const { user, logout } = useAuth();
@@ -18,30 +19,33 @@ export default function ProfileScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Profil</Text>
-      
-      <View style={styles.card}>
-        <Text>Kullanıcı Bilgileri</Text>
-        <Text>Email: {user?.email}</Text>
-        <Text>Kullanıcı ID: {user?.uid}</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Profil</Text>
+        
+        <View style={styles.card}>
+          <Text>Kullanıcı Bilgileri</Text>
+          <Text>Email: {user?.email}</Text>
+          <Text>Kullanıcı ID: {user?.uid}</Text>
+        </View>
+        
+        <TouchableOpacity style={styles.button} onPress={handleLogout}>
+          <Text style={styles.buttonText}>Çıkış Yap</Text>
+        </TouchableOpacity>
       </View>
-      
-      <TouchableOpacity style={styles.button} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Çıkış Yap</Text>
-      </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 10,
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
+    color: Colors.light.white,
   },
   card: {
     padding: 15,

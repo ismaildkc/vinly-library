@@ -1,4 +1,4 @@
-export interface IArtist {
+export interface IArtistSearh {
   id: number;
   title: string;
   thumb: string;
@@ -25,5 +25,11 @@ export interface ILibraryItem {
   year: number;
   userId: string; // Kullanıcıya özel kayıtlar için
   createdAt: Date;
-  artists: any[];
+  artists: IArtist[];
+}
+
+export interface IArtist {
+  id: string;
+  name: string;
+  thumbnail_url: string;
 }

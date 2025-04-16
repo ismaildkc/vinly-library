@@ -1,15 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
-import { useLocalSearchParams, Stack } from 'expo-router';
-import { discogsApi } from '@/src/services/discogs-api';
-
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
+import { useLocalSearchParams, Stack, Link } from "expo-router";
+import { discogsApi } from "@/src/services/discogs-api";
+import TopBar from "@/src/components/common/TopBar";
+import Type from "@/src/components/Type";
+import { Size } from "@/src/constants/Sizes";
+import ListItem from "@/src/components/ListItem";
 // Tip tanımlamaları
-interface ArtistDetails {
+interface IArtistDetails {
   id: number;
   name: string;
   profile: string;
   images?: { uri: string }[];
   urls?: string[];
+  members?: any[];
 }
 
 interface Release {
@@ -22,91 +36,99 @@ interface Release {
 
 export default function ArtistDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const [artist, setArtist] = useState<ArtistDetails | null>(null);
+  const [artist, setArtist] = useState<IArtistDetails | null>(null);
   const [releases, setReleases] = useState<Release[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
+  const [showFullProfile, setShowFullProfile] = useState(false);
   useEffect(() => {
-    const fetchArtistData = async () => {
-      setLoading(true);
-      try {
-        // Sanatçı bilgilerini ve albümlerini paralel olarak getir
-        const [artistData, releasesData] = await Promise.all([
-          discogsApi.getArtist(id),
-          discogsApi.getArtistReleases(id)
-        ]);
-        
-        setArtist(artistData);
-        setReleases(releasesData.releases);
-      } catch (err) {
-        setError('Sanatçı bilgileri yüklenirken bir hata oluştu.');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (id) {
       fetchArtistData();
     }
   }, [id]);
 
-  if (loading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
+  const fetchArtistData = async () => {
+    try {
+      // Sanatçı bilgilerini ve albümlerini paralel olarak getir
+      const [artistData, releasesData] = await Promise.all([
+        discogsApi.getArtist(id),
+        discogsApi.getArtistReleases(id),
+      ]);
 
-  if (error) {
-    return (
-      <View style={styles.centered}>
-        <Text style={styles.errorText}>{error}</Text>
-      </View>
-    );
-  }
+      setArtist(artistData);
+      setReleases(releasesData.releases);
+    } catch (err) {
+      console.error(err);
+    } finally {
+    }
+  };
 
   return (
-    <ScrollView>
-      <Stack.Screen options={{ title: artist?.name || 'Sanatçı Detayları' }} />
-      <View style={styles.container}>
-        {artist && (
-          <View style={styles.artistInfo}>
-            {artist.images && artist.images.length > 0 && (
-              <Image 
-                source={{ uri: artist.images[0].uri }} 
-                style={styles.artistImage} 
-              />
-            )}
-            <Text style={styles.artistName}>{artist.name}</Text>
-            <Text style={styles.artistBio}>{artist.profile}</Text>
-          </View>
-        )}
+    <SafeAreaView style={{ flex: 1 }}>
+      <TopBar />
+      <Stack.Screen options={{ headerShown: false }} />
 
-        <Text style={styles.sectionTitle}>Albümler</Text>
-        <FlatList
-          data={releases}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity style={styles.releaseItem}>
-              <Image 
-                source={{ uri: item.thumb || 'https://picsum.photos/200' }} 
-                style={styles.releaseThumb} 
-              />
-              <View style={styles.releaseInfo}>
-                <Text style={styles.releaseTitle}>{item.title}</Text>
-                <Text style={styles.releaseYear}>{item.year}</Text>
+      <FlatList
+        data={releases}
+        ListHeaderComponent={() => (
+          <>
+            {/* Artist Image */}
+            {artist?.images && artist.images.length > 0 && (
+              <View>
+                <Image
+                  source={{ uri: artist?.images[0].uri }}
+                  style={styles.artistImage}
+                />
               </View>
-            </TouchableOpacity>
-          )}
-          ListEmptyComponent={
-            <Text style={styles.emptyText}>Bu sanatçıya ait albüm bulunamadı</Text>
-          }
-        />
-      </View>
-    </ScrollView>
+            )}
+
+            <View style={{ padding: Size.padding.md }}>
+              <Type type="themeTitle" style={styles.title}>
+                {artist?.name}
+              </Type>
+
+              <View style={styles.membersContainer}>
+                <Type style={{ fontWeight: "bold" }}>Members: </Type>
+                {artist?.members?.map((member: any, index: number) => (
+                  <React.Fragment key={index}>
+                    <Link href={`/artist/${member.id}`}>
+                      <Type style={styles.memberLink}>{member.name}</Type>
+                    </Link>
+                    {index < (artist?.members?.length || 0 - 1) && (
+                      <Type style={styles.separator}>, </Type>
+                    )}
+                  </React.Fragment>
+                ))}
+              </View>
+
+              <View
+                style={[
+                  styles.descriptionContainer,
+                  { height: !showFullProfile ? 100 : "auto" },
+                ]}
+              >
+                <Type>{artist?.profile}</Type>
+                <TouchableOpacity
+                  style={styles.showMoreButton}
+                  onPress={() => setShowFullProfile(!showFullProfile)}
+                >
+                  <Type>Show more...</Type>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </>
+        )}
+        renderItem={({ item }) => (
+          <ListItem
+            image={item.thumb}
+            title={item.title}
+            subTitle={item.year}
+            year={item.year || ""}
+            handleClick={() => null}
+          />
+        )}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={{ padding: Size.padding.md }}
+      />
+    </SafeAreaView>
   );
 }
 
@@ -115,67 +137,35 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  centered: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorText: {
-    color: 'red',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  artistInfo: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
   artistImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    marginBottom: 10,
+    width: "100%",
+    height: 250,
+    objectFit: "cover",
   },
-  artistName: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
+  title: {
+    fontSize: Size.fontSize.xl,
+    fontWeight: "bold",
   },
-  artistBio: {
-    fontSize: 14,
-    textAlign: 'center',
-    marginBottom: 10,
+  membersContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    marginVertical: Size.padding.sm,
   },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
+  memberLink: {
+    
   },
-  releaseItem: {
-    flexDirection: 'row',
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    alignItems: 'center',
+  separator: {
+    marginHorizontal: 2,
   },
-  releaseThumb: {
-    width: 80,
-    height: 80,
-    marginRight: 10,
+  descriptionContainer: {
+    // maxHeight: 100,
+    overflow: "hidden",
+    position: "relative",
   },
-  releaseInfo: {
-    flex: 1,
+  showMoreButton: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
   },
-  releaseTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  releaseYear: {
-    fontSize: 14,
-    color: '#666',
-  },
-  emptyText: {
-    textAlign: 'center',
-    marginTop: 20,
-    color: '#666',
-  },
-}); 
+});

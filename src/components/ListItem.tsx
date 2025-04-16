@@ -1,33 +1,37 @@
-import { ISearchResult } from "@/src/constants/types";
 import { TouchableOpacity, Image, Text, StyleSheet, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import { Colors } from "@/src/constants/Colors";
 import { Size } from "@/src/constants/Sizes";
 
 interface IListItemProps {
-  data: ISearchResult;
-  handleClick: (data: ISearchResult) => void;
+  handleClick: () => void;
+  image: string;
+  title: string;
+  subTitle?: string;
+  type?: string;
+  year: string | number;
 }
 
-export default function ListItem({ data, handleClick }: IListItemProps) {
+export default function ListItem({ image, title, subTitle, type, year, handleClick }: IListItemProps) {
   return (
-    <TouchableOpacity style={styles.item} onPress={() => handleClick(data)}>
+    <TouchableOpacity style={styles.item} onPress={() => handleClick()}>
       <Image
-        source={{ uri: data.thumb || "https://via.placeholder.com/50" }}
+        source={{ uri: image || "https://via.placeholder.com/50" }}
         style={styles.thumb}
       />
       <View style={styles.contentContainer}>
         <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
-          {data.title}
+          {title}
         </Text>
-        <Text style={styles.type}>{data.type} - {data.year}</Text>
+        {subTitle && <Text style={styles.type}>{subTitle}</Text>}
+        <Text style={styles.type}>{type} - {year}</Text>
       </View>
 
-      {(data.type === "master" || data.type === "release") && (
+      {/* {(type === "master" || type === "release") && (
         <View style={{ marginLeft: "auto" }}>
           <Feather name="plus-circle" size={20} color={Colors.light.white} />
         </View>
-      )}
+      )} */}
     </TouchableOpacity>
   );
 }
@@ -35,19 +39,19 @@ export default function ListItem({ data, handleClick }: IListItemProps) {
 const styles = StyleSheet.create({
   item: {
     flexDirection: "row",
-    paddingVertical: 10,
+    paddingVertical: Size.padding.md,
     borderBottomWidth: 1,
     borderBottomColor: Colors.light.primaryLight,
     alignItems: "center",
-    gap: 15,
+    gap: Size.padding.lg,
   },
   thumb: {
-    width: 55,
-    height: 55,
-    borderRadius: 8,
+    width: 60,
+    height: 60,
+    borderRadius: Size.borderRadius.sm,
   },
   contentContainer: {
-    gap: 3,
+    gap: 4,
     minWidth: 0,
     flex: 1,
   },

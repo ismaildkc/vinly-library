@@ -7,8 +7,8 @@ import Type from "@/src/components/Type";
 import Input from "@/src/components/Input";
 import { Colors } from "@/src/constants/Colors";
 export default function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("ismaildkc@gmail.com");
+  const [password, setPassword] = useState("123456");
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const router = useRouter();

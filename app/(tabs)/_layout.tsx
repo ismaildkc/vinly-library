@@ -1,13 +1,14 @@
-import { Tabs } from "expo-router";
+import { Pressable } from "react-native";
 import { useEffect } from "react";
+import { Tabs } from "expo-router";
 import { useRouter, Redirect } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
-import { Pressable } from "react-native";
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import { useAuth } from "@/context/AuthContext";
 import { Colors } from "@/src/constants/Colors";
 import { Size } from "@/src/constants/Sizes";
-import Loader from "../_loader";
 
 export default function TabLayout() {
   const { user, loading, logout } = useAuth();
@@ -54,16 +55,16 @@ export default function TabLayout() {
         options={{
           title: "Explore",
           tabBarIcon: ({ color }) => (
-            <FontAwesome name="user" size={24} color={color} />
+            <FontAwesome6 name="compact-disc" size={20} color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="index"
         options={{
-          title: "Ana Sayfa",
+          title: "Library",
           tabBarIcon: ({ color }) => (
-            <FontAwesome name="home" size={24} color={color} />
+            <MaterialCommunityIcons name="disc-player" size={24} color={color} />
           ),
           headerRight: () => (
             <Pressable onPress={() => logout()} style={{ marginRight: 15 }}>
@@ -73,29 +74,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profil",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome name="user" size={24} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="wishlist"
         options={{
           title: "Wishlist",
           tabBarIcon: ({ color }) => (
-            <FontAwesome name="user" size={24} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="library"
-        options={{
-          title: "Library",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome name="user" size={24} color={color} />
+            <MaterialCommunityIcons name="record-player" size={24} color={color} />
           ),
         }}
       />
