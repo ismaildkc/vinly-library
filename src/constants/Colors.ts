@@ -9,15 +9,15 @@ export const Colors = {
     primaryDark: '#121212',
     primaryLight: '#282828',
     
-    white: '#cad2c5ff',
-    black: '#2F2F2F',
+    // black: '#2F2F2F',
+    white: '#D9D9D9',
     gray: '#858585',
     yellow: '#BFA054',
     green: '#52796fff',
   },
   dark: {
     background: '#151718',
-    gray: '#cad2c5ff',
+    gray: '#D9D9D9',
     green: '#52796fff',
   },
 };

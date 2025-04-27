@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
   },
   secondary: {
     backgroundColor: Colors.light.yellow,
-    color: Colors.light.black,
+    color: Colors.light.primaryLight,
   },
 });

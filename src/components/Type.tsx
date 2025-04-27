@@ -4,7 +4,7 @@ import { StyleProp, StyleSheet, Text, TextStyle } from "react-native";
 
 interface ITypeProps {
   children: React.ReactNode;
-  type?: "title" | "subtitle" | "body" | "caption" | "themeTitle";
+  type?: "title" | "subtitle" | "body" | "themeTitle";
   style?: StyleProp<TextStyle>;
 }
 

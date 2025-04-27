@@ -14,7 +14,7 @@ import { db } from "@/config/firebase";
 import { useAuth } from "@/context/AuthContext";
 import { IArtist, ILibraryItem } from "@/src/constants/types";
 import { Colors } from "@/src/constants/Colors";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import LibraryHeader from "@/src/containers/library/header";
 import ListItem from "@/src/components/ListItem";
 import ArtistCard from "@/src/components/ArtistCard";
@@ -96,7 +96,7 @@ export default function LibraryScreen() {
             title={item.name}
             subTitle={item.artists.map((artist) => artist.name).join(", ")}
             year={item.year || ""}
-            handleClick={() => null}
+            handleClick={() => router.push(`/album/${item.discogs_id}`)}
           />
         )}
         keyExtractor={(item) => item.id || ""}
