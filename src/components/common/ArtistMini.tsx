@@ -1,16 +1,34 @@
 import { Colors } from "@/src/constants/Colors";
-import { Feather } from "@expo/vector-icons";
-import { router } from "expo-router";
-import { Pressable } from "react-native";
+import Type from "@/src/components/Type";
+import { View, Image, StyleSheet } from "react-native";
+import { Size } from "@/src/constants/Sizes";
 
-import { View } from "react-native";
+interface IArtistMiniProps {
+  name: string;
+  image?: string;
+}
 
-export default function TopBar() {
+export default function ArtistMini({ name, image }: IArtistMiniProps) {
   return (
-    <View style={{ paddingHorizontal: 10, paddingBottom: 10 }}>
-      <Pressable onPress={() => router.back()}>
-        <Feather name="arrow-left" size={20} color={Colors.light.gray} />
-      </Pressable>
+    <View style={styles.container}>
+      <Image source={{ uri: image }} style={styles.image} />
+      <Type size="sm">{name}</Type>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Size.padding.xs,
+  },
+  image: {
+    width: 25,
+    height: 25,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: Colors.light.primaryLight,
+    padding: 2,
+  },
+});

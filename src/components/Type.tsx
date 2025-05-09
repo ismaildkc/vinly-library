@@ -5,17 +5,33 @@ import { StyleProp, StyleSheet, Text, TextStyle } from "react-native";
 interface ITypeProps {
   children: React.ReactNode;
   type?: "title" | "subtitle" | "body" | "themeTitle";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   style?: StyleProp<TextStyle>;
 }
 
-export default function Type({ children, type = "body", style }: ITypeProps) {
-  return <Text style={[styles.text, styles[type], style]}>{children}</Text>;
+export default function Type({ children, type = "body", size = "md", style }: ITypeProps) {
+  return <Text style={[styles.text, styles[type], styles[size], style]}>{children}</Text>;
 }
 
 const styles: any = StyleSheet.create({
   text: {
     fontFamily: 'KantumruyPro-VariableFont_wght',
     color: Colors.light.white,
+  },
+  xs: {
+    fontSize: 10,
+  },
+  sm: {
+    fontSize: 13,
+  },
+  md: {
+    fontSize: 15,
+  },
+  lg: {
+    fontSize: 17,
+  },
+  xl: {
+    fontSize: 24,
   },
   title: {
     fontSize: 24,

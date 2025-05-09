@@ -16,6 +16,8 @@ import TopBar from "@/src/components/common/TopBar";
 import Type from "@/src/components/Type";
 import { Size } from "@/src/constants/Sizes";
 import ListItem from "@/src/components/ListItem";
+import ArtistMini from "@/src/components/common/ArtistMini";
+import CollapseBox from "@/src/components/common/CollapseBox";
 // Tip tanımlamaları
 interface IArtistDetails {
   id: number;
@@ -39,6 +41,7 @@ export default function ArtistDetailScreen() {
   const [artist, setArtist] = useState<IArtistDetails | null>(null);
   const [releases, setReleases] = useState<Release[]>([]);
   const [showFullProfile, setShowFullProfile] = useState(false);
+
   useEffect(() => {
     if (id) {
       fetchArtistData();
@@ -52,6 +55,8 @@ export default function ArtistDetailScreen() {
         discogsApi.getArtist(id),
         discogsApi.getArtistReleases(id),
       ]);
+
+      console.log({ artistData, releasesData });
 
       setArtist(artistData);
       setReleases(releasesData.releases);
@@ -80,39 +85,35 @@ export default function ArtistDetailScreen() {
               </View>
             )}
 
-            <View style={{ padding: Size.padding.md }}>
+            <View style={{ paddingHorizontal: 0, paddingVertical: Size.padding.md }}>
               <Type type="themeTitle" style={styles.title}>
-                {artist?.name}
+                {artist?.name}{" "}
+                {!!artist?.members?.length && <Type>(Band)</Type>}
               </Type>
 
               <View style={styles.membersContainer}>
                 <Type style={{ fontWeight: "bold" }}>Members: </Type>
-                {artist?.members?.map((member: any, index: number) => (
-                  <React.Fragment key={index}>
-                    <Link href={`/artist/${member.id}`}>
-                      <Type style={styles.memberLink}>{member.name}</Type>
-                    </Link>
-                    {index < (artist?.members?.length || 0 - 1) && (
-                      <Type style={styles.separator}>, </Type>
-                    )}
-                  </React.Fragment>
-                ))}
+
+                <CollapseBox height={100}>
+                  {artist?.members?.map((member: any, index: number) => (
+                    <React.Fragment key={index}>
+                      <Link href={`/artist/${member.id}`}>
+                        <ArtistMini
+                          name={member.name}
+                          image={member.thumbnail_url}
+                        />
+                      </Link>
+                      {index < (artist?.members?.length || 0 - 1) && (
+                        <Type style={styles.separator}>, </Type>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </CollapseBox>
               </View>
 
-              <View
-                style={[
-                  styles.descriptionContainer,
-                  { height: !showFullProfile ? 100 : "auto" },
-                ]}
-              >
-                <Type>{artist?.profile}</Type>
-                <TouchableOpacity
-                  style={styles.showMoreButton}
-                  onPress={() => setShowFullProfile(!showFullProfile)}
-                >
-                  <Type>Show more...</Type>
-                </TouchableOpacity>
-              </View>
+              <Type type="themeTitle" style={styles.title}>
+                Albums
+              </Type>
             </View>
           </>
         )}
@@ -121,8 +122,9 @@ export default function ArtistDetailScreen() {
             image={item.thumb}
             title={item.title}
             subTitle={item.year}
-            year={item.year || ""}
             handleClick={() => null}
+            isAddable={true}
+            isExist={true}
           />
         )}
         keyExtractor={(item) => item.id.toString()}
@@ -152,9 +154,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: Size.padding.sm,
   },
-  memberLink: {
-    
-  },
+  memberLink: {},
   separator: {
     marginHorizontal: 2,
   },

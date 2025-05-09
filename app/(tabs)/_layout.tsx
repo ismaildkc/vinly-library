@@ -9,10 +9,23 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useAuth } from "@/context/AuthContext";
 import { Colors } from "@/src/constants/Colors";
 import { Size } from "@/src/constants/Sizes";
+import { useFetchLibrary } from "@/src/hooks/useFetchLibrary";
+import { setArtists } from "@/src/store/library";
+import { setAlbums } from "@/src/store/library";
+import { useDispatch } from "react-redux";
 
 export default function TabLayout() {
+  const dispatch = useDispatch();
   const { user, loading, logout } = useAuth();
   const router = useRouter();
+  const { albums, artists, isLoading, refreshLibrary } = useFetchLibrary();
+
+  console.log({ albums, artists, isLoading });
+
+  useEffect(() => {
+    dispatch(setAlbums(albums));
+    dispatch(setArtists(artists));
+  }, [albums, artists]);
 
   useEffect(() => {
     // Kullanıcı oturum açmamışsa, giriş sayfasına yönlendir

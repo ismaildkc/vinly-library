@@ -123,8 +123,7 @@ export default function SearchModal() {
                     <ListItem 
                       image={item.thumb} 
                       title={item.title} 
-                      type={item.type} 
-                      year={item.year || ""} 
+                      type={`${item.type} - ${item.year}`} 
                       handleClick={() => handleSelect(item)} 
                     />
                   )}

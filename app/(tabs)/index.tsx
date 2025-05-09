@@ -2,84 +2,40 @@ import {
   View,
   SafeAreaView,
   StyleSheet,
-  Image,
-  Pressable,
   FlatList,
 } from "react-native";
 import { Size } from "@/src/constants/Sizes";
 import Type from "@/src/components/Type";
 import { useEffect, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "@/config/firebase";
-import { useAuth } from "@/context/AuthContext";
 import { IArtist, ILibraryItem } from "@/src/constants/types";
 import { Colors } from "@/src/constants/Colors";
 import { Link, router } from "expo-router";
 import LibraryHeader from "@/src/containers/library/header";
 import ListItem from "@/src/components/ListItem";
-import ArtistCard from "@/src/components/ArtistCard";
 import SectionRounded from "@/src/components/SectionRounded";
-import { SortAlphabetically } from "@/src/helpers/helper";
+import { useSelector } from "react-redux";
 
 export default function LibraryScreen() {
-  const { user } = useAuth();
-  const [libraryItems, setLibraryItems] = useState<ILibraryItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [artists, setArtists] = useState<IArtist[]>([]);
+  const isLoading = useSelector((state: any) => state.library.isLoading);
+  const albums = useSelector((state: any) => state.library.albums);
+  const artists = useSelector((state: any) => state.library.artists);
 
   useEffect(() => {
-    fetchLibraryItems();
-  }, [user]);
 
-  const fetchLibraryItems = async () => {
-    console.log("fetchLibraryItems");
-    try {
-      if (!user) return;
+  }, [])
 
-      const q = query(
-        collection(db, "library"),
-        where("userId", "==", user.uid)
-      );
-
-      const querySnapshot = await getDocs(q);
-      const items: ILibraryItem[] = [];
-
-      querySnapshot.forEach((doc) => {
-        items.push({ id: doc.id, ...doc.data() } as ILibraryItem);
-      });
-      console.log(items);
-      setLibraryItems(items);
-      getArtists(items);
-    } catch (error) {
-      console.error("Error fetching library items:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getArtists = (items: ILibraryItem[]) => {
-    const allArtists = items.flatMap((item) => item.artists);
-    const uniqueArtists = allArtists.filter(
-      (artist, index, self) =>
-        index === self.findIndex((a) => a.id === artist.id)
-    );
-
-    console.log({ uniqueArtists });
-    const sortedArtists = SortAlphabetically(uniqueArtists, "name");
-    setArtists(sortedArtists);
-  };
 
   return (
     <SafeAreaView style={styles.container}>
       <LibraryHeader />
 
       <FlatList
-        data={libraryItems}
+        data={albums}
         ListHeaderComponent={() => (
           <View>
             <SectionRounded
               title="Artists"
-              cards={artists.map((item) => ({
+              cards={artists.map((item: IArtist) => ({
                 id: item.id,
                 thumbnail_url: item.thumbnail_url,
                 name: item.name,
@@ -94,8 +50,7 @@ export default function LibraryScreen() {
           <ListItem
             image={item.image}
             title={item.name}
-            subTitle={item.artists.map((artist) => artist.name).join(", ")}
-            year={item.year || ""}
+            subTitle={`${item.artists.map((artist: IArtist) => artist.name).join(", ")} - ${item.year}`}
             handleClick={() => router.push(`/album/${item.discogs_id}`)}
           />
         )}

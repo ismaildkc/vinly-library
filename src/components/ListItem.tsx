@@ -9,10 +9,12 @@ interface IListItemProps {
   title: string;
   subTitle?: string;
   type?: string;
-  year: string | number;
+  isAddable?: boolean;
+  isExist?: boolean;
+  size?: "sm" | "md" | "lg";
 }
 
-export default function ListItem({ image, title, subTitle, type, year, handleClick }: IListItemProps) {
+export default function ListItem({ image, title, subTitle, isAddable = false, isExist = false, handleClick, size = "md" }: IListItemProps) {
   return (
     <TouchableOpacity style={styles.item} onPress={() => handleClick()}>
       <Image
@@ -23,15 +25,14 @@ export default function ListItem({ image, title, subTitle, type, year, handleCli
         <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
           {title}
         </Text>
-        {subTitle && <Text style={styles.type}>{subTitle}</Text>}
-        <Text style={styles.type}>{type} - {year}</Text>
+        <Text style={styles.type}>{subTitle}</Text>
       </View>
 
-      {/* {(type === "master" || type === "release") && (
+      {isAddable && (
         <View style={{ marginLeft: "auto" }}>
           <Feather name="plus-circle" size={20} color={Colors.light.white} />
         </View>
-      )} */}
+      )}
     </TouchableOpacity>
   );
 }
@@ -46,8 +47,8 @@ const styles = StyleSheet.create({
     gap: Size.padding.lg,
   },
   thumb: {
-    width: 60,
-    height: 60,
+    width: 45,
+    height: 45,
     borderRadius: Size.borderRadius.sm,
   },
   contentContainer: {
