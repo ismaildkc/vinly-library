@@ -20,8 +20,6 @@ export default function TabLayout() {
   const router = useRouter();
   const { albums, artists, isLoading, refreshLibrary } = useFetchLibrary();
 
-  console.log({ albums, artists, isLoading });
-
   useEffect(() => {
     dispatch(setAlbums(albums));
     dispatch(setArtists(artists));

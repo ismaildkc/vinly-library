@@ -1,7 +1,10 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { initializeAuth, browserLocalPersistence, inMemoryPersistence } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 
+// Initialize web Firebase
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -12,7 +15,15 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app); 
+
+// Initialize auth with platform-specific persistence
+// For React Native, we'll use in-memory persistence for now
+// Note: This will show a warning, but it's the simplest approach without native modules
+const auth = initializeAuth(app, { 
+  persistence: Platform.OS === 'web' ? browserLocalPersistence : inMemoryPersistence
+});
+
+// Initialize Firestore
 const db = getFirestore(app);
 
 export { auth, db };
