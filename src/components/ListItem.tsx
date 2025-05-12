@@ -1,22 +1,24 @@
-import { TouchableOpacity, Image, Text, StyleSheet, View } from "react-native";
+import { Image, Text, StyleSheet, View, Pressable, ActivityIndicator } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import { Colors } from "@/src/constants/Colors";
 import { Size } from "@/src/constants/Sizes";
 
 interface IListItemProps {
-  handleClick: () => void;
   image: string;
   title: string;
   subTitle?: string;
   type?: string;
   isAddable?: boolean;
-  isExist?: boolean;
+  isLoading?: boolean;
   size?: "sm" | "md" | "lg";
+  
+  handlePress?: () => void;
+  handleIconPress?: () => void;
 }
 
-export default function ListItem({ image, title, subTitle, isAddable = false, isExist = false, handleClick, size = "md" }: IListItemProps) {
+export default function ListItem({ image, title, subTitle, isAddable = false, isLoading = false, handlePress, handleIconPress, size = "md" }: IListItemProps) {
   return (
-    <TouchableOpacity style={styles.item} onPress={() => handleClick()}>
+    <Pressable style={styles.item} onPress={handlePress}>
       <Image
         source={{ uri: image || "https://via.placeholder.com/50" }}
         style={styles.thumb}
@@ -25,15 +27,23 @@ export default function ListItem({ image, title, subTitle, isAddable = false, is
         <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
           {title}
         </Text>
-        <Text style={styles.type}>{subTitle}</Text>
+        {subTitle &&<Text style={styles.type}>{subTitle}</Text>}
       </View>
 
-      {isAddable && (
+      {isAddable && !isLoading && (
+        <Pressable onPress={handleIconPress}>
+          <View style={{ marginLeft: "auto" }}>
+            <Feather name="plus-circle" size={20} color={Colors.light.white} />
+          </View>
+        </Pressable>
+      )}
+
+      {isLoading && (
         <View style={{ marginLeft: "auto" }}>
-          <Feather name="plus-circle" size={20} color={Colors.light.white} />
+          <ActivityIndicator size="small" color={Colors.light.white} />
         </View>
       )}
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 

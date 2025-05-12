@@ -48,7 +48,7 @@ export default function CollapseBox({
         onPress={() => setIsOpen(!isOpen)} 
         style={styles.button}
       >
-        <Type>{isOpen ? "Show less..." : buttonText}</Type>
+        <Type size="sm">{isOpen ? "Show less..." : buttonText}</Type>
       </Pressable>
     </Animated.View>
   );

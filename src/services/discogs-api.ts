@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { IGetArtistReleases, IGetMasterDetails, IGetReleaseDetails } from "@/src/constants/types";
 // Discogs API URL ve kimlik bilgileri
 const BASE_URL = "https://api.discogs.com";
 const USER_AGENT = "VinlyLibrary/1.0"; // Discogs API, user-agent belirtmenizi ister
@@ -58,7 +58,7 @@ export const discogsApi = {
   },
 
   // Sanatçının albümlerini getirme
-  getArtistReleases: async (artistId: string, page = 1, perPage = 50) => {
+  getArtistReleases: async (artistId: string, page = 1, perPage = 50): Promise<IGetArtistReleases> => {
     try {
       const response = await api.get(`/artists/${artistId}/releases`, {
         params: {
@@ -66,6 +66,7 @@ export const discogsApi = {
           per_page: perPage,
         },
       });
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error("Sanatçı albümleri getirme hatası:", error);
@@ -74,7 +75,7 @@ export const discogsApi = {
   },
 
   // Albüm detayları getirme
-  getReleaseDetails: async (releaseId: string) => {
+  getReleaseDetails: async (releaseId: string): Promise<IGetReleaseDetails> => {
     try {
       const response = await api.get(`/releases/${releaseId}`);
       return response.data;
@@ -84,7 +85,7 @@ export const discogsApi = {
     }
   },
 
-  getMasterDetails: async (masterId: string) => {
+  getMasterDetails: async (masterId: string): Promise<IGetMasterDetails> => {
     try {
       const response = await api.get(`/masters/${masterId}`);
       return response.data;

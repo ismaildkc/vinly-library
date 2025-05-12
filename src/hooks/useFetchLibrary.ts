@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '@/config/firebase';
 import { useAuth } from '@/context/AuthContext';
-import { ILibraryItem, IArtist } from '@/src/constants/types';
+import { ILibraryItem, Artist } from '@/src/constants/types';
 import { SortAlphabetically } from '@/src/helpers/helper';
 
 export const useFetchLibrary = () => {
   const [albums, setAlbums] = useState<ILibraryItem[]>([]);
-  const [artists, setArtists] = useState<IArtist[]>([]);
+  const [artists, setArtists] = useState<Artist[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 

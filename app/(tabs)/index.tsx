@@ -7,7 +7,7 @@ import {
 import { Size } from "@/src/constants/Sizes";
 import Type from "@/src/components/Type";
 import { useEffect, useState } from "react";
-import { IArtist, ILibraryItem } from "@/src/constants/types";
+import { Artist, ILibraryItem } from "@/src/constants/types";
 import { Colors } from "@/src/constants/Colors";
 import { Link, router } from "expo-router";
 import LibraryHeader from "@/src/containers/library/header";
@@ -21,7 +21,7 @@ export default function LibraryScreen() {
   const artists = useSelector((state: any) => state.library.artists);
 
   useEffect(() => {
-
+    console.log(albums);
   }, [])
 
 
@@ -35,7 +35,7 @@ export default function LibraryScreen() {
           <View>
             <SectionRounded
               title="Artists"
-              cards={artists.map((item: IArtist) => ({
+              cards={artists.map((item: Artist) => ({
                 id: item.id,
                 thumbnail_url: item.thumbnail_url,
                 name: item.name,
@@ -48,10 +48,10 @@ export default function LibraryScreen() {
         )}
         renderItem={({ item }) => (
           <ListItem
-            image={item.image}
-            title={item.name}
-            subTitle={`${item.artists.map((artist: IArtist) => artist.name).join(", ")} - ${item.year}`}
-            handleClick={() => router.push(`/album/${item.discogs_id}`)}
+            image={item.thumb}
+            title={item.title}
+            subTitle={`${item.artists.map((artist: Artist) => artist.name).join(", ")} - ${item.year}`}
+            handlePress={() => router.push(`/album/${item.discogs_id}`)}
           />
         )}
         keyExtractor={(item) => item.id || ""}

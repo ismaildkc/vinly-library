@@ -65,7 +65,7 @@ function RootLayoutContent() {
           />
         </Stack>
         {isLoading && <Loader />}
-        <StatusBar style="auto" />
+        <StatusBar style="light" />
       </ThemeProvider>
     </AuthProvider>
   );
